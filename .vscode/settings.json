@@ -1,0 +1,40 @@
+{
+  "C_Cpp.clang_format_style": "Visual Studio",
+  "editor.formatOnSave": false,
+  "[cpp]": {
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "strings": "on",
+      "other": "on"
+    }
+  },
+  "[c]": {
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "strings": "on",
+      "other": "on"
+    }
+  },
+  "C_Cpp.intelliSenseEngineFallback": "Enabled",
+  "idf.port": "/dev/ttyUSB0",
+  "git.ignoreLimitWarning": true,
+  "idf.portWin": "COM3",
+  "idf.flashType": "UART",
+  "idf.adapterTargetName": "esp32",
+  "files.associations": {
+    "esp_system.h": "c",
+    "esp_event.h": "c",
+    "esp_log.h": "c",
+    "freertos.h": "c",
+    "spi_flash_mmap.h": "c",
+    "dht11.h": "c",
+    "gpio.h": "c",
+    "connect_mqtt.h": "c",
+    "queue.h": "c",
+    "task.h": "c",
+    "sht3x_espidf.h": "c",
+    "stdio.h": "c",
+    "esp_rom_sys.h": "c"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
+}
