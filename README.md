@@ -57,7 +57,7 @@ The Indoor Environment Monitoring System includes the following features:
 
 ### Dashboard
 
-![Dashboard](dashboard.jpg)
+![Dashboard](./dashboard.jpg)
 
 The dashboard displays real-time environmental data, including:
 
@@ -69,7 +69,7 @@ It also shows an environmental parameter chart tracking temperature, humidity an
 
 ### Rule Chain
 
-![Rule Chain](rule_chain.jpg)
+![Rule Chain](./rule_chain.jpg)
 
 The rule chain processes incoming data and triggers actions based on predefined conditions:
 
