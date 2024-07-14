@@ -53,6 +53,35 @@ The Indoor Environment Monitoring System includes the following features:
 | 01 | Rule chain configuration   | Set up alert conditions in Thingsboard        |
 | 02 | Telegram bot integration   | Send alerts to user's Telegram bot            |
 
+## Thingsboard Server Design
+
+### Dashboard
+
+![Dashboard](dashboard.jpg)
+
+The dashboard displays real-time environmental data, including:
+
+- Humidity.
+- Illuminance.
+- Temperature.
+
+It also shows an environmental parameter chart tracking temperature, humidity and light over time. The dashboard allows setting environmental parameters with input fields for maximum and minimum values of humidity, light, and temperature.
+
+### Rule Chain
+
+![Rule Chain](rule_chain.jpg)
+
+The rule chain processes incoming data and triggers actions based on predefined conditions:
+
+1. Input node receives data
+2. Key attributes are extracted
+3. Three parallel "Under threshold" scripts evaluate the data
+4. Based on the evaluation, alarms are either created or cleared for temperature, humidity and light
+5. If alarms are created, a new Telegram message is composed
+6. The message is sent via a REST API call to the user's Telegram bot
+
+This rule chain enables automated alerting when environmental conditions exceed set thresholds.
+
 ## Setup Instructions
 
 Before using this project, please follow these steps:
