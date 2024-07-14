@@ -1,10 +1,28 @@
-#include "bh1750_espidf.h"
-
 /**
- @brief I2C驱动初始化
- @param 无
- @return 无
-*/
+ * @file       bh1750_espidf.c
+ * @copyright  Copyright (C) 2024. All rights reserved.
+ * @license    This project is released under Nguyen Thanh Minh.
+ * @version    1.0.0
+ * @date       2024-07-14
+ * @author     Nguyen Thanh Minh
+ *             
+ * @brief      driver for BH1750
+ *             
+ * @note       not tested
+ */
+/* Includes ----------------------------------------------------------- */
+#include "bh1750_espidf.h"
+/* Private defines ---------------------------------------------------- */
+
+/* Private enumerate/structure ---------------------------------------- */
+
+/* Private macros ----------------------------------------------------- */
+
+/* Public variables --------------------------------------------------- */
+
+/* Private function prototypes ---------------------------------------- */
+
+/* Function definitions ----------------------------------------------- */
 int I2C_Init(void)
 {
     i2c_config_t conf = {
@@ -24,14 +42,7 @@ int I2C_Init(void)
     return i2c_driver_install(I2C_MASTER_NUM, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
 }
 
-/**
- @brief I2C写数据函数
- @param slaveAddr -[in] 从设备地址
- @param regAddr -[in] 寄存器地址
- @param pData -[in] 写入数据
- @param dataLen -[in] 写入数据长度
- @return 错误码
-*/
+
 int I2C_WriteData(uint8_t slaveAddr, uint8_t regAddr, uint8_t *pData, uint16_t dataLen)
 {
     int ret;
@@ -49,14 +60,6 @@ int I2C_WriteData(uint8_t slaveAddr, uint8_t regAddr, uint8_t *pData, uint16_t d
     return ret;
 }
 
-/**
- @brief I2C读数据函数
- @param slaveAddr -[in] 从设备地址
- @param regAddr -[in] 寄存器地址
- @param pData -[in] 读出数据
- @param dataLen -[in] 读出数据长度
- @return 错误码
-*/
 int I2C_ReadData(uint8_t slaveAddr, uint8_t regAddr, uint8_t *pData, uint16_t dataLen)
 {
     int ret;
@@ -74,11 +77,6 @@ int I2C_ReadData(uint8_t slaveAddr, uint8_t regAddr, uint8_t *pData, uint16_t da
     return ret;
 }
 
-/**
- @brief BH1750初始化函数
- @param 无
- @return 无
-*/
 void BH1750_Init(void)
 {
     uint8_t data;
@@ -91,11 +89,6 @@ void BH1750_Init(void)
     vTaskDelay(pdMS_TO_TICKS(180)); // Đợi 180ms cho cảm biến ổn định
 }
 
-/**
- @brief BH1750获取光强度
- @param 无
- @return 光强度
-*/
 float BH1750_ReadLightIntensity(void)
 {
     float lux = 0.0;
@@ -104,3 +97,4 @@ float BH1750_ReadLightIntensity(void)
     lux = (sensorData[0] << 8 | sensorData[1]) / 1.2;
     return lux;
 }
+/* End of file -------------------------------------------------------- */

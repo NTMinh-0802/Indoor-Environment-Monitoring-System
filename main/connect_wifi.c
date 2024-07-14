@@ -1,12 +1,38 @@
+/**
+ * @file       connect_wifi.c
+ * @copyright  Copyright (C) 2024. All rights reserved.
+ * @license    This project is released under Nguyen Thanh Minh.
+ * @version    1.0.0
+ * @date       2024-07-14
+ * @author     Nguyen Thanh Minh
+ *             
+ * @brief      WiFi connection module for ESP-IDF
+ *             
+ * @note       Tested with ESP-IDF  
+ */
+/* Includes ----------------------------------------------------------- */
 #include "connect_wifi.h"
 
+/* Private defines ---------------------------------------------------- */
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT      BIT1
 
+/* Private enumerate/structure ---------------------------------------- */
+
+/* Private macros ----------------------------------------------------- */
+
+/* Public variables --------------------------------------------------- */
+
+/* Private variables --------------------------------------------------- */
 static const char *TAG = "wifi station";
 static EventGroupHandle_t s_wifi_event_group;
 static int s_retry_num = 0;
 
+/* Private function prototypes ---------------------------------------- */
+static void event_handler(void* arg, esp_event_base_t event_base,
+                          int32_t event_id, void* event_data);
+
+/* Function definitions ----------------------------------------------- */
 static void event_handler(void* arg, esp_event_base_t event_base,
                           int32_t event_id, void* event_data)
 {
@@ -57,9 +83,6 @@ void wifi_init_sta(void)
         .sta = {
             .ssid = EXAMPLE_ESP_WIFI_SSID,
             .password = EXAMPLE_ESP_WIFI_PASS,
-            // .threshold.authmode = ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD,
-            // .sae_pwe_h2e = ESP_WIFI_SAE_MODE,
-            // .sae_h2e_identifier = EXAMPLE_H2E_IDENTIFIER,
         },
     };
 
@@ -85,3 +108,5 @@ void wifi_init_sta(void)
         ESP_LOGE(TAG, "UNEXPECTED EVENT");
     }
 }
+
+/* End of file -------------------------------------------------------- */

@@ -1,3 +1,17 @@
+/**
+ * @file       main.c
+ * @copyright  Copyright (C) 2024. All rights reserved.
+ * @license    This project is released under Nguyen Thanh Minh.
+ * @version    1.0.0
+ * @date       2024-07-14
+ * @author     Nguyen Thanh Minh
+ *             
+ * @brief      Main application for sensor reading and MQTT publishing
+ *             
+ * @note       
+ */
+
+/* Includes ----------------------------------------------------------- */
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -10,9 +24,25 @@
 #include "connect_wifi.h"
 #include "connect_mqtt.h"
 
+/* Private defines ---------------------------------------------------- */
 #define MAIN_TAG "MAIN"
+#define SENSOR_READ_DELAY_MS 3000
+#define MQTT_CONNECTION_RETRY_COUNT 20
+#define MQTT_CONNECTION_RETRY_DELAY_MS 500
 
-void sensor_read_task(void *pvParameters)
+/* Private enumerate/structure ---------------------------------------- */
+
+/* Private macros ----------------------------------------------------- */
+
+/* Public variables --------------------------------------------------- */
+
+/* Private variables -------------------------------------------------- */
+
+/* Private function prototypes ---------------------------------------- */
+static void sensor_read_task(void *pvParameters);
+
+/* Function definitions ----------------------------------------------- */
+static void sensor_read_task(void *pvParameters)
 {
     float temp_data, hum_data, lux;
     esp_err_t ret;
@@ -48,8 +78,8 @@ void sensor_read_task(void *pvParameters)
 
         ESP_LOGI(MAIN_TAG, "--------------------");
 
-        // Wait for 3 seconds before reading again
-        vTaskDelay(pdMS_TO_TICKS(3000));
+        // Wait before reading again
+        vTaskDelay(pdMS_TO_TICKS(SENSOR_READ_DELAY_MS));
     }
 }
 
@@ -90,9 +120,9 @@ void app_main(void)
 
     // Wait for Wi-Fi and MQTT connection
     int retry = 0;
-    while (!is_mqtt_connected() && retry < 20) 
+    while (!is_mqtt_connected() && retry < MQTT_CONNECTION_RETRY_COUNT) 
     {
-        vTaskDelay(pdMS_TO_TICKS(500));
+        vTaskDelay(pdMS_TO_TICKS(MQTT_CONNECTION_RETRY_DELAY_MS));
         ESP_LOGI(MAIN_TAG, "Waiting for MQTT connection...");
         retry++;
     }
@@ -117,3 +147,5 @@ void app_main(void)
     // Create task to read sensors
     xTaskCreate(sensor_read_task, "sensor_read_task", 4096, NULL, 10, NULL);
 }
+
+/* End of file -------------------------------------------------------- */

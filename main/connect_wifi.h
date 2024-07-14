@@ -1,6 +1,21 @@
-#ifndef WIFI_STATION_H
-#define WIFI_STATION_H
+/**
+ * @file       connect_wifi.h
+ * @copyright  Copyright (C) 2024. All rights reserved.
+ * @license    This project is released under Nguyen Thanh Minh.
+ * @version    1.0.0
+ * @date       2024-07-14
+ * @author     Nguyen Thanh Minh
+ *             
+ * @brief      WiFi connection handler for ESP-IDF
+ *             
+ * @note       Tested with ESP-IDF
+ */
 
+/* Define to prevent recursive inclusion ------------------------------ */
+#ifndef __CONNECT_WIFI_H
+#define __CONNECT_WIFI_H
+
+/* Includes ----------------------------------------------------------- */
 #include <string.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -10,11 +25,10 @@
 #include "esp_event.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
-
 #include "lwip/err.h"
 #include "lwip/sys.h"
 
-/* WiFi station configuration */
+/* Public defines ----------------------------------------------------- */
 #define EXAMPLE_ESP_WIFI_SSID      "Tra sua TIAMO"
 #define EXAMPLE_ESP_WIFI_PASS      "trasuakemtrung"
 #define CONFIG_ESP_MAXIMUM_RETRY   5
@@ -30,6 +44,7 @@
 #define ESP_WIFI_SAE_MODE WPA3_SAE_PWE_BOTH
 #define EXAMPLE_H2E_IDENTIFIER CONFIG_ESP_WIFI_PW_ID
 #endif
+
 #if CONFIG_ESP_WIFI_AUTH_OPEN
 #define ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD WIFI_AUTH_OPEN
 #elif CONFIG_ESP_WIFI_AUTH_WEP
@@ -48,7 +63,20 @@
 #define ESP_WIFI_SCAN_AUTH_MODE_THRESHOLD WIFI_AUTH_WAPI_PSK
 #endif
 
-/* Function prototypes */
+/* Public enumerate/structure ----------------------------------------- */
+
+/* Public macros ------------------------------------------------------ */
+
+/* Public variables --------------------------------------------------- */
+
+/* Public function prototypes ----------------------------------------- */
+/**
+ * @brief Initialize WiFi in station mode
+ * @param None
+ * @return None
+ */
 void wifi_init_sta(void);
 
-#endif /* WIFI_STATION_H */
+#endif // __CONNECT_WIFI_H
+
+/* End of file -------------------------------------------------------- */

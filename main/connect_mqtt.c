@@ -1,3 +1,17 @@
+/**
+ * @file       connect_mqtt.c
+ * @copyright  Copyright (C) 2024. All rights reserved.
+ * @license    This project is released under Nguyen Thanh Minh.
+ * @version    1.0.0
+ * @date       2024-07-14
+ * @author     Nguyen Thanh Minh
+ *             
+ * @brief      MQTT connection and communication handler for ESP-IDF
+ *             
+ * @note       not tested
+ */
+
+/* Includes ----------------------------------------------------------- */
 #include <stdio.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -21,10 +35,29 @@
 #include "esp_log.h"
 #include "mqtt_client.h"
 
+/* Private defines ---------------------------------------------------- */
+#define MQTT_BROKER_URI "mqtt://thingsboard.srv524038.hstgr.cloud/"
+#define MQTT_BROKER_PORT 1884
+#define MQTT_USERNAME "hAtOjp2kejMeaJMFfpQE"
+#define MQTT_KEEPALIVE 120
+
+/* Private enumerate/structure ---------------------------------------- */
+
+/* Private macros ----------------------------------------------------- */
+
+/* Public variables --------------------------------------------------- */
 esp_mqtt_client_handle_t mqtt_client = NULL;
+
+/* Private variables -------------------------------------------------- */
 static bool mqtt_connected = false;
 static const char *TAG = "MQTT_EXAMPLE";
 
+/* Private function prototypes ---------------------------------------- */
+static void log_error_if_nonzero(const char *message, int error_code);
+static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data);
+static void mqtt_app_start(void);
+
+/* Function definitions ----------------------------------------------- */
 static void log_error_if_nonzero(const char *message, int error_code)
 {
     if (error_code != 0) {
@@ -78,36 +111,11 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 static void mqtt_app_start(void)
 {
     esp_mqtt_client_config_t mqtt_cfg = {
-        .broker.address.uri = "mqtt://thingsboard.srv524038.hstgr.cloud/",
-        .broker.address.port = 1884,
-        .credentials.username = "hAtOjp2kejMeaJMFfpQE",
-        .session.keepalive = 120,
+        .broker.address.uri = MQTT_BROKER_URI,
+        .broker.address.port = MQTT_BROKER_PORT,
+        .credentials.username = MQTT_USERNAME,
+        .session.keepalive = MQTT_KEEPALIVE,
     };
-
-#if CONFIG_BROKER_URL_FROM_STDIN
-    char line[128];
-
-    if (strcmp(mqtt_cfg.broker.address.uri, "FROM_STDIN") == 0) {
-        int count = 0;
-        printf("Please enter url of mqtt broker\n");
-        while (count < 128) {
-            int c = fgetc(stdin);
-            if (c == '\n') {
-                line[count] = '\0';
-                break;
-            } else if (c > 0 && c < 127) {
-                line[count] = c;
-                ++count;
-            }
-            vTaskDelay(10 / portTICK_PERIOD_MS);
-        }
-        mqtt_cfg.broker.address.uri = line;
-        printf("Broker url: %s\n", line);
-    } else {
-        ESP_LOGE(TAG, "Configuration mismatch: wrong broker url");
-        abort();
-    }
-#endif /* CONFIG_BROKER_URL_FROM_STDIN */
 
     esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
     mqtt_client = client;
@@ -145,3 +153,5 @@ esp_mqtt_client_handle_t get_mqtt_client(void)
     }
     return mqtt_client;
 }
+
+/* End of file -------------------------------------------------------- */

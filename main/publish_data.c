@@ -1,13 +1,37 @@
+/**
+ * @file       publish_data.c
+ * @copyright  Copyright (C) 2024. All rights reserved.
+ * @license    This project is released under Nguyen Thanh Minh.
+ * @version    1.0.0
+ * @date       2024-07-14
+ * @author     Nguyen Thanh Minh
+ *             
+ * @brief      Data publishing module for MQTT
+ *             
+ * @note       Tested with ESP-IDF  
+ */
+/* Includes ----------------------------------------------------------- */
 #include "publish_data.h"
 #include "esp_log.h"
 #include <stdio.h>
 #include <string.h>
 #include "connect_mqtt.h"
 
+/* Private defines ---------------------------------------------------- */
+
+/* Private enumerate/structure ---------------------------------------- */
+
+/* Private macros ----------------------------------------------------- */
+
+/* Public variables --------------------------------------------------- */
+
+/* Private variables --------------------------------------------------- */
 static const char *TAG = "PUBLISH_DATA";
 
+/* Private function prototypes ---------------------------------------- */
 extern esp_mqtt_client_handle_t get_mqtt_client(void);
 
+/* Function definitions ----------------------------------------------- */
 void publish_sensor_data(float temperature, float humidity, float light)
 {
     esp_mqtt_client_handle_t mqtt_client = get_mqtt_client();
@@ -31,3 +55,5 @@ void publish_sensor_data(float temperature, float humidity, float light)
         ESP_LOGI(TAG, "Published sensor data, msg_id=%d", msg_id);
     }
 }
+
+/* End of file -------------------------------------------------------- */
