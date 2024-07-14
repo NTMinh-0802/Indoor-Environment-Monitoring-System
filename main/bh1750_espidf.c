@@ -23,7 +23,7 @@
 /* Private function prototypes ---------------------------------------- */
 
 /* Function definitions ----------------------------------------------- */
-int I2C_Init(void)
+int i2c_init(void)
 {
     i2c_config_t conf = {
         .mode = I2C_MODE_MASTER,
@@ -43,57 +43,57 @@ int I2C_Init(void)
 }
 
 
-int I2C_WriteData(uint8_t slaveAddr, uint8_t regAddr, uint8_t *pData, uint16_t dataLen)
+int i2c_write_data(uint8_t slave_addr, uint8_t reg_addr, uint8_t *data_read, uint16_t data_leng)
 {
     int ret;
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (slaveAddr << 1) | WRITE_BIT, ACK_CHECK_EN);
-    if (regAddr != 0)
+    i2c_master_write_byte(cmd, (slave_addr << 1) | WRITE_BIT, ACK_CHECK_EN);
+    if (reg_addr != 0)
     {
-        i2c_master_write_byte(cmd, regAddr, ACK_CHECK_EN);
+        i2c_master_write_byte(cmd, reg_addr, ACK_CHECK_EN);
     }
-    i2c_master_write(cmd, pData, dataLen, ACK_CHECK_EN);
+    i2c_master_write(cmd, data_read, data_leng, ACK_CHECK_EN);
     i2c_master_stop(cmd);
     ret = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
     return ret;
 }
 
-int I2C_ReadData(uint8_t slaveAddr, uint8_t regAddr, uint8_t *pData, uint16_t dataLen)
+int i2c_read_data(uint8_t slave_addr, uint8_t reg_addr, uint8_t *data_read, uint16_t data_leng)
 {
     int ret;
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (slaveAddr << 1) | READ_BIT, ACK_CHECK_EN);
-    if (regAddr != 0)
+    i2c_master_write_byte(cmd, (slave_addr << 1) | READ_BIT, ACK_CHECK_EN);
+    if (reg_addr != 0)
     {
-        i2c_master_write_byte(cmd, regAddr, ACK_CHECK_EN);
+        i2c_master_write_byte(cmd, reg_addr, ACK_CHECK_EN);
     }
-    i2c_master_read(cmd, pData, dataLen, ACK_VAL);
+    i2c_master_read(cmd, data_read, data_leng, ACK_VAL);
     i2c_master_stop(cmd);
     ret = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
     return ret;
 }
 
-void BH1750_Init(void)
+void bh1750_init(void)
 {
     uint8_t data;
     data = BH1750_PWR_ON;
-    ESP_ERROR_CHECK(I2C_WriteData(BH1750_SLAVE_ADDR, 0, &data, 1));
+    ESP_ERROR_CHECK(i2c_write_data(BH1750_SLAVE_ADDR, 0, &data, 1));
     vTaskDelay(pdMS_TO_TICKS(10)); // Đợi 10ms
 
     data = BH1750_CON_H;
-    ESP_ERROR_CHECK(I2C_WriteData(BH1750_SLAVE_ADDR, 0, &data, 1));
+    ESP_ERROR_CHECK(i2c_write_data(BH1750_SLAVE_ADDR, 0, &data, 1));
     vTaskDelay(pdMS_TO_TICKS(180)); // Đợi 180ms cho cảm biến ổn định
 }
 
-float BH1750_ReadLightIntensity(void)
+float read_light_intensity(void)
 {
     float lux = 0.0;
     uint8_t sensorData[2] = {0};
-    I2C_ReadData(BH1750_SLAVE_ADDR, 0, sensorData, 2);
+    i2c_read_data(BH1750_SLAVE_ADDR, 0, sensorData, 2);
     lux = (sensorData[0] << 8 | sensorData[1]) / 1.2;
     return lux;
 }

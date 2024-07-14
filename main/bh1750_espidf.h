@@ -53,41 +53,41 @@
  @param None
  @return None
 */
-int I2C_Init(void);
+int i2c_init(void);
 
 /**
  @brief I2C write data function
- @param slaveAddr -[in] Slave device address
- @param regAddr -[in] Register address
- @param pData -[in] Data to write
- @param dataLen -[in] Length of data to write
+ @param slave_addr -[in] Slave device address
+ @param reg_addr -[in] Register address
+ @param data_read -[in] Data to write
+ @param data_leng -[in] Length of data to write
  @return Error code
 */
-int I2C_WriteData(uint8_t slaveAddr, uint8_t regAddr, uint8_t *pData, uint16_t dataLen);
+int i2c_write_data(uint8_t slave_addr, uint8_t reg_addr, uint8_t *data_read, uint16_t data_leng);
 
 /**
  @brief I2C read data function
- @param slaveAddr -[in] Slave device address
- @param regAddr -[in] Register address
- @param pData -[in] Data to read
- @param dataLen -[in] Length of data to read
+ @param slave_addr -[in] Slave device address
+ @param reg_addr -[in] Register address
+ @param data_read -[in] Data to read
+ @param data_leng -[in] Length of data to read
  @return Error code
 */
-int I2C_ReadData(uint8_t slaveAddr, uint8_t regAddr, uint8_t *pData, uint16_t dataLen);
+int i2c_read_data(uint8_t slave_addr, uint8_t reg_addr, uint8_t *data_read, uint16_t data_leng);
 
 /**
  @brief BH1750 initialization function
  @param None
  @return None
 */
-void BH1750_Init(void);
+void bh1750_init(void);
 
 /**
  @brief Get light intensity from BH1750
  @param None
  @return Light intensity
 */
-float BH1750_ReadLightIntensity(void);
+float read_light_intensity(void);
 
 #endif // __BH1750_ESPIDF_H
 

@@ -62,7 +62,7 @@ static void sensor_read_task(void *pvParameters)
         }
 
         // Read BH1750
-        lux = BH1750_ReadLightIntensity();
+        lux = read_light_intensity();
         if (lux >= 0) 
         {
             ESP_LOGI(MAIN_TAG, "Light: %.2f [Lux]", lux);
@@ -111,7 +111,7 @@ void app_main(void)
     ESP_LOGI(MAIN_TAG, "SHT30 initialized successfully");
 
     // Initialize BH1750
-    BH1750_Init();
+    bh1750_init();
     ESP_LOGI(MAIN_TAG, "BH1750 initialized successfully");
 
     // Initialize Wi-Fi and MQTT

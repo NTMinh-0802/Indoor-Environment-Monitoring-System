@@ -24,7 +24,7 @@
 /* Public variables --------------------------------------------------- */
 
 /* Private variables --------------------------------------------------- */
-static const char *TAG = "wifi station";
+static const char *TAG = "WIFI_STATION";
 static EventGroupHandle_t s_wifi_event_group;
 static int s_retry_num = 0;
 

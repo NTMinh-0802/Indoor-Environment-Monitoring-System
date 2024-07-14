@@ -50,7 +50,7 @@ esp_mqtt_client_handle_t mqtt_client = NULL;
 
 /* Private variables -------------------------------------------------- */
 static bool mqtt_connected = false;
-static const char *TAG = "MQTT_EXAMPLE";
+static const char *TAG = "MQTT_CONNECT";
 
 /* Private function prototypes ---------------------------------------- */
 static void log_error_if_nonzero(const char *message, int error_code);
